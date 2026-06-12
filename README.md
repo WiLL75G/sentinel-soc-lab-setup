@@ -32,33 +32,33 @@ ususususususususususususus│
 
 ## Build Methodology
 
-### Step 1 — Provision the Azure Subscription
+### Step 1 Provision the Azure Subscription
 A Microsoft Azure free account was created, providing a $200 credit valid for 30 days plus a set of always-free services. The free-trial flow, including identity verification, is the step that actually provisions the subscription. Without a completed subscription, the directory exists but no resources can be deployed.
 
 **SOC Observation:** A common Day 1 failure is an account with a directory but no subscription, shown by a "No subscriptions in this directory" message. The fix is to complete the full free-trial signup so the subscription provisions and attaches.
 
-### Step 2 — Create the Resource Group
+### Step 2 Create the Resource Group
 A resource group named `rg-soc-lab` was created to act as the single container for all lab resources.
 
 ![Resource Group created](screenshots/day01-resource-group.png)
 
 **SOC Observation:** Consistent naming (`rg-` prefix) and grouping all resources together is standard operational hygiene. It makes the environment easy to audit and easy to delete cleanly.
 
-### Step 3 — Deploy the Log Analytics Workspace
+### Step 3 Deploy the Log Analytics Workspace
 A Log Analytics workspace named `law-soc-lab` was deployed inside the resource group. This is the data lake that Sentinel reads from.
 
 ![Log Analytics Workspace deployed](screenshots/day01-log-analytics-workspace.png)
 
 **SOC Observation:** The workspace must exist before Sentinel can be deployed, because Sentinel attaches to an existing workspace. Build order matters: data platform first, detection layer second.
 
-### Step 4 — Deploy Microsoft Sentinel
+### Step 4 Deploy Microsoft Sentinel
 Microsoft Sentinel was deployed onto the `law-soc-lab` workspace, adding the SIEM/SOAR capability on top of the data platform.
 
 ![Microsoft Sentinel deployed on law-soc-lab](screenshots/day01-sentinel-deployed.png)
 
 **SOC Observation:** Enabling Sentinel is free; billing is driven only by data ingestion. A 31-day free trial was activated providing up to 10 GB/day free for both Sentinel and Log Analytics, which comfortably covers this lab.
 
-### Step 5 — Capture the Pre-Ingestion Baseline
+### Step 5 Capture the Pre-Ingestion Baseline
 Before connecting any data sources, the workspace was confirmed empty. The Logs interface reported "All tables are currently empty," and a baseline query was run in the Logs (KQL) editor to record the starting state.
 
 ![Empty tables baseline](screenshots/day01-baseline-empty-tables.png)
@@ -74,7 +74,7 @@ Usage
 
 **SOC Observation:** You cannot identify abnormal activity without first recording what normal looks like. This empty-state snapshot is the reference point against which all future telemetry, in Day 2 onward, will be compared. Capturing a baseline before any change is a core SOC discipline used in threat hunting and detection tuning.
 
-### Step 6 — Confirm the Build
+### Step 6 Confirm the Build
 The Azure home view confirmed both resources deployed and the free credit untouched, verifying the full Day 1 build succeeded.
 
 ![Home view showing resources and credit](screenshots/day01-home-resources.png)
