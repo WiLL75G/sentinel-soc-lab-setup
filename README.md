@@ -95,5 +95,57 @@ The Azure home view confirmed the environment was deployed and the free credit u
 ## Conclusion
 Day 1 delivered a fully deployed, query-ready Microsoft Sentinel SIEM on Azure with a documented pre-ingestion baseline. The environment is clean, organised in a single resource group, and ready for data source onboarding. Day 2 will connect the first data connector and validate live log ingestion against this baseline.
 
-## Next
-**Day 2 First Data Connector & Ingestion Validation:** connect a data source, generate activity, and confirm telemetry is flowing by comparing against this Day 1 baseline.
+## Day 2 First Data Connector & Ingestion Validation
+
+### Objective
+Onboard the first telemetry source into Microsoft Sentinel and validate that log data is flowing into the workspace, measured against the Day 1 baseline.
+
+### What I Did
+- Reviewed the Sentinel data connectors gallery (8 connectors available)
+- Opened the Azure Activity connector (status: Not connected)
+- Connected Azure Activity using an Azure Policy assignment scoped to the subscription, streaming Activity logs into law-soc-lab
+- Generated control-plane activity (resource group tag changes) to produce ingestable events
+- Validated ingestion in the Logs (KQL) editor against the AzureActivity table
+
+### Connector
+| Connector | Data Type | Method | Cost | Status |
+|-----------|-----------|--------|------|--------|
+| Azure Activity | Subscription-level control-plane logs | Azure Policy (diagnostic settings pipeline) | Free | Connected |
+
+### Build Steps
+
+**1. Data connectors gallery**
+Reviewed available connectors in Microsoft Sentinel for the law-soc-lab workspace.
+
+![Data connectors gallery](screenshots/day02-data-connectors-gallery.png)
+
+**2. Azure Activity connector page**
+Opened the Azure Activity connector, confirming prerequisites (workspace read/write, subscription owner) were met.
+
+![Azure Activity connector page](screenshots/day02-azure-activity-connector-page.png)
+
+**3. Azure Policy assignment**
+Assigned the "Configure Azure Activity logs to stream to specified Log Analytics workspace" policy, scoped to the subscription and pointing at law-soc-lab. Assignment succeeded.
+
+![Policy assignment succeeded](screenshots/day02-policy-assignment-succeeded.png)
+
+**4. Generated activity**
+Created resource group tag events to produce Azure Activity records for ingestion.
+
+![Activity generated via tags](screenshots/day02-activity-generated.png)
+
+### SOC Observation
+Azure Activity is connected via a diagnostic settings pipeline governed by Azure Policy. On first setup, ingestion is not instant the policy assignment, role assignment, and diagnostic setting must fully provision before any data flows, which can take from several minutes up to an hour. Querying immediately returns no results; this is expected pipeline latency, not a failure. The validation approach is to compare against the Day 1 empty baseline: once AzureActivity rows appear where the workspace was previously empty, ingestion is confirmed.
+
+### Validation Query
+```kql
+AzureActivity
+| take 20
+```
+Run in the Logs (KQL) editor with a time range covering the generated activity. The presence of AzureActivity rows where the Day 1 baseline showed an empty workspace confirms the data pipeline is live.
+
+### Result
+A verified telemetry pipeline feeding Microsoft Sentinel from the Azure subscription. The before/after against the Day 1 baseline demonstrates ingestion was proven, not assumed.
+
+### Next
+Day 3: KQL fundamentals turning ingested logs into detection queries.
