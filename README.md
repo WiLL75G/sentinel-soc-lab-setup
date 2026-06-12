@@ -1,4 +1,3 @@
-cat > README.md << 'EOF'
 # Microsoft Sentinel SOC Lab — Setup
 
 ## Incident / Lab Summary
