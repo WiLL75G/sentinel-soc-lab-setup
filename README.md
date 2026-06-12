@@ -97,4 +97,3 @@ Day 1 delivered a fully deployed, query-ready Microsoft Sentinel SIEM on Azure w
 
 ## Next
 **Day 2 First Data Connector & Ingestion Validation:** connect a data source, generate activity, and confirm telemetry is flowing by comparing against this Day 1 baseline.
-EOF
