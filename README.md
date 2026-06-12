@@ -44,7 +44,7 @@ A resource group named `rg-soc-lab` was created to act as the single container f
 
 **SOC Observation:** Consistent naming (`rg-` prefix) and grouping all resources together is standard operational hygiene. It makes the environment easy to audit and easy to delete cleanly.
 
-### Step 3 — Deploy the Log Analytics Workspace
+### Step 3 Deploy the Log Analytics Workspace
 A Log Analytics workspace named `law-soc-lab` was deployed inside the resource group. This is the data lake that Sentinel reads from.
 
 ![Log Analytics Workspace deployed](screenshots/day01-log-analytics-workspace.png)
