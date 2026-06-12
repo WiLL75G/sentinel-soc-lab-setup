@@ -1,7 +1,7 @@
-# Microsoft Sentinel SOC Lab — Setup
+# Microsoft Sentinel SOC Lab Setup
 
 ## Incident / Lab Summary
-This project documents the deployment of a Microsoft Sentinel cloud SIEM on Microsoft Azure, built as the foundation for a 6-week hands-on SOC detection lab. Day 1 covers the full infrastructure build — subscription, resource group, Log Analytics workspace, and Microsoft Sentinel — followed by capturing a clean pre-ingestion baseline of the environment before any log sources are connected.
+This project documents the deployment of a Microsoft Sentinel cloud SIEM on Microsoft Azure, built as the foundation for a 6-week hands-on SOC detection lab. Day 1 covers the full infrastructure build — subscription, resource group, Log Analytics workspace, and Microsoft Sentinel followed by capturing a clean pre-ingestion baseline of the environment before any log sources are connected.
 
 The goal of Day 1 is not detection yet. It is to stand up a working, query-ready SIEM and to record exactly what the environment looks like while it is empty, so that any future telemetry, alerts, and anomalies can be measured against a known-good starting point.
 
@@ -17,10 +17,10 @@ Azure Subscription
         └── Microsoft Sentinel (SIEM / SOAR layer)
 \`\`\`
 
-- **Azure Subscription** — the billing and management boundary. Without an active subscription, no resources can be created.
-- **Resource Group (`rg-soc-lab`)** — a logical container that holds every resource in this lab. Deleting the group removes everything inside it in a single action, which keeps the environment clean and prevents stray costs.
-- **Log Analytics Workspace (`law-soc-lab`)** — the data platform. This is where all logs are stored, indexed, and made queryable with KQL (Kusto Query Language). Sentinel does not store data itself; it reads from this workspace.
-- **Microsoft Sentinel** — the SIEM/SOAR layer that sits on top of the Log Analytics workspace. It provides detection rules, incidents, threat hunting, and investigation tooling. Sentinel is free to enable; cost is based only on the volume of data ingested into the workspace.
+- **Azure Subscription** the billing and management boundary. Without an active subscription, no resources can be created.
+- **Resource Group (`rg-soc-lab`)** a logical container that holds every resource in this lab. Deleting the group removes everything inside it in a single action, which keeps the environment clean and prevents stray costs.
+- **Log Analytics Workspace (`law-soc-lab`)** the data platform. This is where all logs are stored, indexed, and made queryable with KQL (Kusto Query Language). Sentinel does not store data itself; it reads from this workspace.
+- **Microsoft Sentinel** the SIEM/SOAR layer that sits on top of the Log Analytics workspace. It provides detection rules, incidents, threat hunting, and investigation tooling. Sentinel is free to enable; cost is based only on the volume of data ingested into the workspace.
 
 ## Environment Details
 | Component | Name | Region | Notes |
@@ -32,12 +32,12 @@ Azure Subscription
 
 ## Build Methodology
 
-### Step 1 — Provision the Azure Subscription
+### Step 1 Provision the Azure Subscription
 A Microsoft Azure free account was created, providing a \$200 credit valid for 30 days plus a set of always-free services. The free-trial flow, including identity verification, is the step that actually provisions the subscription. Without a completed subscription, the directory exists but no resources can be deployed.
 
 **SOC Observation:** A common Day 1 failure is an account with a directory but no subscription, shown by a "No subscriptions in this directory" message. The fix is to complete the full free-trial signup so the subscription provisions and attaches.
 
-### Step 2 — Create the Resource Group
+### Step 2 Create the Resource Group
 A resource group named `rg-soc-lab` was created to act as the single container for all lab resources.
 
 ![Resource Group created](screenshots/day01-resource-group.png)
@@ -51,14 +51,14 @@ A Log Analytics workspace named `law-soc-lab` was deployed inside the resource g
 
 **SOC Observation:** The workspace must exist before Sentinel can be deployed, because Sentinel attaches to an existing workspace. Build order matters: data platform first, detection layer second.
 
-### Step 4 — Deploy Microsoft Sentinel
+### Step 4 Deploy Microsoft Sentinel
 Microsoft Sentinel was deployed onto the `law-soc-lab` workspace, adding the SIEM/SOAR capability on top of the data platform.
 
 ![Microsoft Sentinel deployed on law-soc-lab](screenshots/day01-sentinel-deployed.png)
 
 **SOC Observation:** Enabling Sentinel is free; billing is driven only by data ingestion. A 31-day free trial was activated providing up to 10 GB/day free for both Sentinel and Log Analytics, which comfortably covers this lab.
 
-### Step 5 — Capture the Pre-Ingestion Baseline
+### Step 5 Capture the Pre-Ingestion Baseline
 Before connecting any data sources, the workspace was confirmed empty. The Logs interface reported "All tables are currently empty," and a baseline query was run in the Logs (KQL) editor to record the starting state.
 
 ![Empty tables baseline](screenshots/day01-baseline-empty-tables.png)
@@ -74,7 +74,7 @@ Usage
 
 **SOC Observation:** You cannot identify abnormal activity without first recording what normal looks like. This empty-state snapshot is the reference point against which all future telemetry, in Day 2 onward, will be compared. Capturing a baseline before any change is a core SOC discipline used in threat hunting and detection tuning.
 
-### Step 6 — Confirm the Build
+### Step 6 Confirm the Build
 The Azure home view confirmed the environment was deployed and the free credit untouched, verifying the full Day 1 build succeeded.
 
 ![Home view showing resources and credit](screenshots/day01-home-resources.png)
@@ -96,5 +96,5 @@ The Azure home view confirmed the environment was deployed and the free credit u
 Day 1 delivered a fully deployed, query-ready Microsoft Sentinel SIEM on Azure with a documented pre-ingestion baseline. The environment is clean, organised in a single resource group, and ready for data source onboarding. Day 2 will connect the first data connector and validate live log ingestion against this baseline.
 
 ## Next
-**Day 2 — First Data Connector & Ingestion Validation:** connect a data source, generate activity, and confirm telemetry is flowing by comparing against this Day 1 baseline.
+**Day 2 First Data Connector & Ingestion Validation:** connect a data source, generate activity, and confirm telemetry is flowing by comparing against this Day 1 baseline.
 EOF
