@@ -1,7 +1,7 @@
 # Microsoft Sentinel SOC Lab Setup
 
 ## Incident / Lab Summary
-This project documents the deployment of a Microsoft Sentinel cloud SIEM on Microsoft Azure, built as the foundation for a 6-week hands-on SOC detection lab. Day 1 covers the full infrastructure build — subscription, resource group, Log Analytics workspace, and Microsoft Sentinel followed by capturing a clean pre-ingestion baseline of the environment before any log sources are connected.
+This project documents the deployment of a Microsoft Sentinel cloud SIEM on Microsoft Azure, built as the foundation for hands-on SOC detection lab. Day 1 covers the full infrastructure build subscription, resource group, Log Analytics workspace, and Microsoft Sentinel followed by capturing a clean pre-ingestion baseline of the environment before any log sources are connected.
 
 The goal of Day 1 is not detection yet. It is to stand up a working, query-ready SIEM and to record exactly what the environment looks like while it is empty, so that any future telemetry, alerts, and anomalies can be measured against a known-good starting point.
 
