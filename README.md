@@ -212,7 +212,7 @@ The ability to query a live SIEM with KQL filtering, shaping, aggregating, and a
 
 
 
----
+
 
 ## Day 4 Analytics Rule Lab: Scheduled Detection and Incident Triage
 
@@ -229,20 +229,33 @@ Day 4 moved from interactive hunting (Day 3 KQL) to operational detection: conve
 - Caller / impacted identity: wgokahp@gmail.com
 
 ### Investigation Methodology
-1. Validated the detection query in Logs / Advanced hunting, confirming successful WRITE events were returned with the required TimeGenerated column.
-2. Created a custom detection rule using the unified detection wizard (the legacy Sentinel Analytics wizard is now consolidated into the Defender portal under a single "custom detection" experience).
-3. Configured rule logic: name, description, frequency, severity, MITRE category and technique, and recommended analyst actions.
-4. Configured alert enrichment with dynamic title/description tokens and mapped the Caller column to a User (Account) entity via UPN for incident correlation.
-5. Triggered the rule by writing a tag (Day4 : rule-test) to rg-soc-lab, generating a MICROSOFT.RESOURCES/TAGS/WRITE event.
-6. Triaged the resulting incident: took ownership, set status to In Progress, classified as a true positive, and tagged it for context.
 
-### Detection Query
+Step 1 Validated the detection query in Logs, confirming successful WRITE events were returned with the required TimeGenerated column.
+
+![Detection query returning successful WRITE events](screenshots/day04-detection-query.png)
+
 ```kql
 AzureActivity
 | where OperationNameValue contains "WRITE"
 | where ActivityStatusValue == "Success"
 | project TimeGenerated, OperationNameValue, Caller, ResourceGroup
 ```
+
+Step 2 Created a custom detection rule using the unified detection wizard. Configured the rule name, description, query, and frequency.
+
+![Rule wizard General panel name, description, query, frequency](screenshots/day04-analytics-rule-logic-1.png)
+
+Step 3 Set severity, MITRE category and technique, and recommended analyst actions.
+
+![Rule wizard severity, category, MITRE technique, recommended actions](screenshots/day04-analytics-rule-logic-2.png)
+
+Step 4 Saved the rule. Confirmed Enabled status, Medium severity, NRT scheduling, and Impact / T1492 mapping.
+
+![Saved detection rule detail panel](screenshots/day04-rule-created.png)
+
+Step 5 Triggered the rule by writing a tag (Day4 : rule-test) to rg-soc-lab, then triaged the resulting incident: took ownership, set status to In Progress, classified as a true positive, and applied the lab-test tag.
+
+![Triaged incident In Progress, assigned, true positive](screenshots/day04-incident-triaged.png)
 
 ### Rule Configuration
 | Setting | Value |
@@ -287,8 +300,24 @@ Note: T1492 is an approximate mapping. A resource/configuration write is a form 
 Several platform behaviors differ from the legacy Sentinel scheduled-rule model and are worth noting for real-world work:
 - The Analytics rule wizard has moved into the unified Defender portal as a "custom detection rule." The "Create analytics rule instead" link returns the legacy experience.
 - The classic "frequency + lookback" pairing is replaced by a single frequency control. NRT rules carry no lookback period; daily-or-less rules apply an automatic 30-day look-back. This removes the old "lookback must be greater than or equal to frequency" trap.
-- Entity correlation quality depends on choosing the identifier type that matches the data format. The Caller value is email-formatted, so UPN was the correct identifier not AadUserId (GUID) or SID.
+- Entity correlation quality depends on choosing the identifier type that matches the data format. The Caller value is email-formatted, so UPN was the correct identifier — not AadUserId (GUID) or SID.
 - Alert enrichment pulls directly from the projected query columns, which is why projecting clean, useful columns in the detection query matters.
 
 ### Learning Outcome
 Built and operated a complete detection lifecycle: query validation → scheduled rule → alert enrichment → entity mapping → incident generation → Tier 1 triage. Reinforced the distinction between hunting (interactive) and detection (automated), and documented the real-world differences between the legacy Sentinel rule wizard and the unified Defender XDR custom detection experience.
+
+### Repository Structure
+```
+sentinel-soc-lab-setup/
+├── README.md
+└── screenshots/
+    ├── day04-detection-query.png
+    ├── day04-analytics-rule-logic-1.png
+    ├── day04-analytics-rule-logic-2.png
+    ├── day04-rule-created.png
+    └── day04-incident-triaged.png
+```
+
+### Conclusion
+Day 4 delivered a working scheduled detection rule that detects suspicious resource write activity, raises alerts, correlates them into incidents, and supports full manual triage completing the transition from ad hoc hunting to operational detection engineering in Microsoft Sentinel.
+```
