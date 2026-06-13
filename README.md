@@ -147,5 +147,68 @@ Run in the Logs (KQL) editor with a time range covering the generated activity. 
 ### Result
 A verified telemetry pipeline feeding Microsoft Sentinel from the Azure subscription. The before/after against the Day 1 baseline demonstrates ingestion was proven, not assumed.
 
+
+
+
+
+## Day 3 KQL Fundamentals
+
+### Objective
+Turn ingested logs into answers using KQL, the query language of Microsoft Sentinel. Run the core operators against the live AzureActivity data to filter, shape, and aggregate real telemetry.
+
+### What I Did
+- Sampled the raw AzureActivity table to see its structure
+- Used project to cut dozens of columns down to the four that matter
+- Used where to filter rows down to only the events of interest
+- Used summarize to turn raw events into a ranked list of what happened
+- Pivoted summarize by Caller to answer who did it
+
+### The Funnel Model
+KQL works like a funnel: start with the whole table, then narrow step by step until only the events that matter remain.
+
+Table -> where (filter rows) -> project (pick columns) -> summarize (aggregate) -> sort (rank)
+
+### Build Steps
+
+**1. Raw table baseline**
+Sampled the unfiltered table to see its shape and column count.
+
+![Raw table](screenshots/day03-raw-table.png)
+
+**2. project cut the columns**
+Trimmed dozens of columns down to four: when, what, status, who.
+
+![Project columns](screenshots/day03-project-columns.png)
+
+**3. where filter the rows**
+Kept only successful operations, filtering out the Start events.
+
+![Where filter](screenshots/day03-where-filter.png)
+
+**4. summarize what happened**
+Collapsed every event into a ranked list of operations by count.
+
+![Summarize operations](screenshots/day03-summarize-operations.png)
+
+**5. summarize by Caller who did it**
+Pivoted on Caller to attribute every action to an identity.
+
+![Summarize by caller](screenshots/day03-summarize-caller.png)
+
+### SOC Observation
+Azure logs many operations as a Start/Success pair, so counting raw events without accounting for this can double the numbers. The count column KQL generates is named count_ with a trailing underscore. where filters rows and project filters columns; they are chained filter-first, then shape. The by Caller pivot is the backbone of attribution and the basis for brute-force detection later.
+
+### Core Operators
+| Operator | What it does |
+|----------|--------------|
+| where | Keeps only rows matching a condition |
+| project | Keeps only the columns you name |
+| summarize | Groups rows and aggregates |
+| sort | Orders results |
+| count / take | Counts rows / samples N rows |
+
+### Result
+The ability to query a live SIEM with KQL filtering, shaping, aggregating, and attributing real telemetry. This is the core day-to-day skill of a Tier 1 SOC analyst.
+
 ### Next
-Day 3: KQL fundamentals turning ingested logs into detection queries.
+Day 4: Analytics rules turning these queries into scheduled detections that fire incidents.
