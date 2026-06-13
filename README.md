@@ -210,5 +210,85 @@ Azure logs many operations as a Start/Success pair, so counting raw events witho
 ### Result
 The ability to query a live SIEM with KQL filtering, shaping, aggregating, and attributing real telemetry. This is the core day-to-day skill of a Tier 1 SOC analyst.
 
-### Next
-Day 4: Analytics rules turning these queries into scheduled detections that fire incidents.
+
+
+---
+
+## Day 4 Analytics Rule Lab: Scheduled Detection and Incident Triage
+
+### Incident Summary
+A custom detection rule named "Suspicious Resource Write Activity" was built in Microsoft Sentinel (via the unified Microsoft Defender portal) to detect successful write operations against Azure resources in rg-soc-lab. The rule was triggered by a controlled resource tag write, generating an incident that was triaged end to end as a SOC Tier 1 analyst.
+
+### Executive Summary
+Day 4 moved from interactive hunting (Day 3 KQL) to operational detection: converting a validated KQL query into a scheduled rule that runs automatically, raises alerts, correlates them into incidents, and surfaces them in the Incidents queue for triage. The detection logic, alert enrichment, entity mapping, and full incident lifecycle (assignment, status, classification) were exercised against live AzureActivity data.
+
+### Affected System
+- Log Analytics Workspace: law-soc-lab (Workspace ID e19a5dce-4777-4f66-9a27-2318c18a2f46)
+- Resource Group: rg-soc-lab (East US)
+- Data source: AzureActivity table
+- Caller / impacted identity: wgokahp@gmail.com
+
+### Investigation Methodology
+1. Validated the detection query in Logs / Advanced hunting, confirming successful WRITE events were returned with the required TimeGenerated column.
+2. Created a custom detection rule using the unified detection wizard (the legacy Sentinel Analytics wizard is now consolidated into the Defender portal under a single "custom detection" experience).
+3. Configured rule logic: name, description, frequency, severity, MITRE category and technique, and recommended analyst actions.
+4. Configured alert enrichment with dynamic title/description tokens and mapped the Caller column to a User (Account) entity via UPN for incident correlation.
+5. Triggered the rule by writing a tag (Day4 : rule-test) to rg-soc-lab, generating a MICROSOFT.RESOURCES/TAGS/WRITE event.
+6. Triaged the resulting incident: took ownership, set status to In Progress, classified as a true positive, and tagged it for context.
+
+### Detection Query
+```kql
+AzureActivity
+| where OperationNameValue contains "WRITE"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, OperationNameValue, Caller, ResourceGroup
+```
+
+### Rule Configuration
+| Setting | Value |
+| --- | --- |
+| Rule name | Suspicious Resource Write Activity |
+| Type | Custom detection rule (Defender XDR / Sentinel unified) |
+| Frequency | Continuous (NRT) |
+| Lookback | None (NRT rules evaluate as events are ingested) |
+| Severity | Medium |
+| Entity mapping | User (Account) → UPN → Caller |
+| Status | Enabled |
+
+### IOCs
+| Indicator | Type | Context |
+| --- | --- | --- |
+| wgokahp@gmail.com | Account (UPN) | Caller performing the write operation |
+| MICROSOFT.RESOURCES/TAGS/WRITE | Operation | Resource tag modification |
+| MICROSOFT.OPERATIONALINSIGHTS/WORKSPACES/WRITE | Operation | Workspace configuration write |
+| rg-soc-lab | Resource group | Target of the write activity |
+
+### MITRE ATT&CK
+| Tactic | Technique | Sub-technique |
+| --- | --- | --- |
+| Impact (TA0040) | T1492: Stored Data Manipulation | — |
+
+Note: T1492 is an approximate mapping. A resource/configuration write is a form of stored-data manipulation, but the activity (a tag write) is broad. The mapping is documented as approximate rather than forced to a more specific destructive technique.
+
+### SOC Analyst Findings
+- The rule fired correctly, raising two alerts that correlated into a single incident ("Suspicious Resource Write Activity Detected involving one user").
+- Detection source: Custom detection. Product: Microsoft Defender XDR. Category: Impact.
+- The impacted entity (User: wgokahp) was correctly identified via the UPN entity mapping, confirming the entity correlation worked as designed.
+- Dynamic alert enrichment tokens ({{Caller}}, {{ResourceGroup}}, {{TimeGenerated}}) resolved from the projected query columns.
+
+### SOC Analyst Response
+- Assigned the incident to the analyst account (took ownership).
+- Set incident status to In Progress.
+- Classified the incident as a true positive (benign in context the write activity was authorized lab activity generated for detection testing).
+- Applied the incident tag "lab-test" for documentation.
+- No automated remediation was configured; triage was performed manually, which is the correct posture for a Tier 1 detection-and-triage exercise.
+
+### Analyst Insight
+Several platform behaviors differ from the legacy Sentinel scheduled-rule model and are worth noting for real-world work:
+- The Analytics rule wizard has moved into the unified Defender portal as a "custom detection rule." The "Create analytics rule instead" link returns the legacy experience.
+- The classic "frequency + lookback" pairing is replaced by a single frequency control. NRT rules carry no lookback period; daily-or-less rules apply an automatic 30-day look-back. This removes the old "lookback must be greater than or equal to frequency" trap.
+- Entity correlation quality depends on choosing the identifier type that matches the data format. The Caller value is email-formatted, so UPN was the correct identifier not AadUserId (GUID) or SID.
+- Alert enrichment pulls directly from the projected query columns, which is why projecting clean, useful columns in the detection query matters.
+
+### Learning Outcome
+Built and operated a complete detection lifecycle: query validation → scheduled rule → alert enrichment → entity mapping → incident generation → Tier 1 triage. Reinforced the distinction between hunting (interactive) and detection (automated), and documented the real-world differences between the legacy Sentinel rule wizard and the unified Defender XDR custom detection experience.
