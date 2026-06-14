@@ -320,11 +320,11 @@ sentinel-soc-lab-setup/
 
 ### Conclusion
 Day 4 delivered a working scheduled detection rule that detects suspicious resource write activity, raises alerts, correlates them into incidents, and supports full manual triage completing the transition from ad hoc hunting to operational detection engineering in Microsoft Sentinel.
-```
 
-
-
-# Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
+ 
+ 
+ 
+ Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
 
 ## Incident Summary
 
