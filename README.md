@@ -95,6 +95,9 @@ The Azure home view confirmed the environment was deployed and the free credit u
 ## Conclusion
 Day 1 delivered a fully deployed, query-ready Microsoft Sentinel SIEM on Azure with a documented pre-ingestion baseline. The environment is clean, organised in a single resource group, and ready for data source onboarding. Day 2 will connect the first data connector and validate live log ingestion against this baseline.
 
+
+
+
 ## Day 2 First Data Connector & Ingestion Validation
 
 ### Objective
@@ -214,6 +217,7 @@ The ability to query a live SIEM with KQL filtering, shaping, aggregating, and a
 
 
 
+
 ## Day 4 Analytics Rule Lab: Scheduled Detection and Incident Triage
 
 ### Incident Summary
@@ -300,7 +304,7 @@ Note: T1492 is an approximate mapping. A resource/configuration write is a form 
 Several platform behaviors differ from the legacy Sentinel scheduled-rule model and are worth noting for real-world work:
 - The Analytics rule wizard has moved into the unified Defender portal as a "custom detection rule." The "Create analytics rule instead" link returns the legacy experience.
 - The classic "frequency + lookback" pairing is replaced by a single frequency control. NRT rules carry no lookback period; daily-or-less rules apply an automatic 30-day look-back. This removes the old "lookback must be greater than or equal to frequency" trap.
-- Entity correlation quality depends on choosing the identifier type that matches the data format. The Caller value is email-formatted, so UPN was the correct identifier — not AadUserId (GUID) or SID.
+- Entity correlation quality depends on choosing the identifier type that matches the data format. The Caller value is email-formatted, so UPN was the correct identifier not AadUserId (GUID) or SID.
 - Alert enrichment pulls directly from the projected query columns, which is why projecting clean, useful columns in the detection query matters.
 
 ### Learning Outcome
@@ -324,7 +328,11 @@ Day 4 delivered a working scheduled detection rule that detects suspicious resou
  
  
  
- Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
+
+ 
+ 
+ 
+##Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
 
 ## Incident Summary
 
