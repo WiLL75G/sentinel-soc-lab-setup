@@ -2,7 +2,7 @@
 
 ## Incident Summary
 - **Incident Type:** Credential Access via SSH Brute-Force (Successful Compromise)
-- **Severity:** High (confirmed account compromise — valid credentials obtained)
+- **Severity:** High (confirmed account compromise valid credentials obtained)
 - **Detection Method:** Threat hunt across Linux Syslog (auth/authpriv) in Microsoft Sentinel
 - **Data Pipeline:** Ubuntu auth.log → Azure Monitor Agent → Data Collection Rule → Sentinel (law-soc-lab)
 - **Tools:** Hydra (attack), Azure Arc, Azure Monitor Agent, Microsoft Sentinel, KQL
