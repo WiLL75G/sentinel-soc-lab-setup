@@ -321,3 +321,129 @@ sentinel-soc-lab-setup/
 ### Conclusion
 Day 4 delivered a working scheduled detection rule that detects suspicious resource write activity, raises alerts, correlates them into incidents, and supports full manual triage completing the transition from ad hoc hunting to operational detection engineering in Microsoft Sentinel.
 ```
+
+
+
+# Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
+
+## Incident Summary
+
+- **Incident Type:** Credential Access via SSH Brute-Force (Successful Compromise)
+- **Severity:** High (Confirmed account compromise - valid credentials obtained)
+- **Detection Method:** Threat hunt across Linux Syslog (auth/authpriv) in Microsoft Sentinel
+- **Data Pipeline:** Ubuntu auth.log -> Azure Monitor Agent -> Data Collection Rule -> Sentinel (law-soc-lab)
+- **Tools Used:** Hydra (attack), Azure Arc, Azure Monitor Agent, Microsoft Sentinel, KQL
+- **Status:** Detected, confirmed, and contained
+
+## Executive Summary
+
+An automated SSH brute-force attack was launched from a single host against a monitored Linux server. The attacker targeted the local account "mary" with a rapid sequence of password guesses. Across the campaign, 88 failed authentication attempts and 8 successful logins originated from the same source IP, confirming a credential compromise rather than a blocked attack. The activity was detected by hunting the Linux Syslog auth facility ingested into Microsoft Sentinel, the compromise was confirmed by correlating failure and success counts per source, and the attacker was contained by blocking the source IP at the host firewall.
+
+## Affected System
+
+- **Target Host:** wazuh-manager (Ubuntu 24.04.4 LTS)
+- **Target IP:** 192.168.64.12
+- **Targeted Account:** mary
+- **Exposed Service:** OpenSSH (TCP/22)
+- **Monitoring:** Azure Monitor Agent forwarding auth/authpriv syslog to Sentinel workspace law-soc-lab
+
+## Investigation Methodology
+
+A baseline check of the identity sign-in logs was performed first. Querying SigninLogs returned no results, confirming that Entra-based authentication telemetry was not available in this environment and that the brute-force hunt would need to be conducted against host-level Linux authentication logs instead.
+
+![Auth baseline SigninLogs empty](screenshots/day05-auth-baseline.png)
+
+To bring host-level authentication telemetry into Microsoft Sentinel, the Linux target was onboarded to Azure Arc, registering the machine as a hybrid-connected resource in Azure.
+
+![Azure Arc onboarding completed](screenshots/day05-arc-connected.png)
+
+The Azure Monitor Agent was then deployed to the Arc-connected machine, and a Data Collection Rule scoped to the auth and authpriv syslog facilities was associated with it. The agent was confirmed running on the target.
+
+![AMA agent running on target](screenshots/day05-ama-extension.png)
+
+A baseline query verified that auth and authpriv syslog events were flowing into the Sentinel workspace before any attack was simulated.
+
+![Syslog baseline before attack](screenshots/day05-syslog-baseline.png)
+
+A controlled brute-force attack was then executed from the attacker host using Hydra against the SSH service, cycling through a password list targeting the account "mary" and ending in a successful authentication.
+
+![Hydra brute-force execution](screenshots/day05-attack-execution.png)
+
+The resulting authentication events were confirmed to have propagated into the Sentinel Syslog table, establishing that the hunt would operate on live ingested telemetry.
+
+![Attack events confirmed in Sentinel Syslog](screenshots/day05-syslog-attack-confirmed.png)
+
+## Indicators of Compromise (IOCs)
+
+| Indicator | Type | Value |
+|---|---|---|
+| Source IP | IPv4 | 192.168.64.15 |
+| Targeted account | Username | mary |
+| Target host | Hostname | wazuh-manager |
+| Target service | Port | TCP/22 (SSH) |
+| Failed authentications | Count | 88 |
+| Successful authentications | Count | 8 |
+| Attack window | Time range | ~3:28 AM - 3:30 AM UTC |
+
+## MITRE ATT&CK Mapping
+
+| Tactic | Technique | ID |
+|---|---|---|
+| Credential Access | Brute Force: Password Guessing | T1110.001 |
+| Credential Access | Brute Force | T1110 |
+| Initial Access | Valid Accounts | T1078 |
+
+## SOC Analyst Findings
+
+The first hunt query aggregated failed SSH authentications by source IP and targeted user, surfacing a single source (192.168.64.15) responsible for 88 failed login attempts against the account mary. This concentration of failures from one source against one account is the defining signature of a password-guessing brute-force.
+
+![Failed-login spike by source IP](screenshots/day05-failure-spike.png)
+
+The second query correlated failure and success counts per source IP. The same source IP showed 88 failures alongside 8 successful logins. The presence of successful authentications following a high volume of failures elevated this from an attempted attack to a confirmed compromise: the attacker obtained valid credentials and authenticated to the host.
+
+![Confirmed compromise failures plus successes](screenshots/day05-compromise-found.png)
+
+The third query reconstructed the attack chronologically, tagging each event as FAILED or SUCCESS and ordering by time. The timeline visualization showed a dense burst of activity compressed into a window of roughly 75 seconds consistent with an automated tool rather than manual access while the detailed event table showed the sequence of failed attempts punctuated by successful logins, all from the attacker IP.
+
+![Attack timeline visualization](screenshots/day05.a-attack-timeline.png)
+
+![Attack timeline event detail](screenshots/day05.b-attack-timeline.png)
+
+## SOC Analyst Response
+
+Upon confirming the compromise, the attacker source IP was contained at the host firewall. A deny rule for 192.168.64.15 was inserted at the top of the UFW ruleset so that it is evaluated before the permissive SSH rule, cutting off all further access from the attacker.
+
+![Containment attacker IP blocked at firewall](screenshots/day05-containment-block.png)
+
+Recommended follow-up actions for a production environment would include resetting the compromised account credentials, reviewing the account for any post-compromise activity (new sessions, privilege changes, persistence), and enforcing preventative controls such as key-based authentication, fail2ban, and SSH access restricted to trusted source ranges.
+
+## Analyst Insight
+
+The decisive analytical step was not detecting failed logins in isolation but correlating failures with successes from the same source. A high failure count alone indicates an attempted attack that may have been repelled; a high failure count paired with one or more successes indicates the attacker broke through. This distinction is what separates routine noise from an escalation-worthy incident, and it is the judgment a Tier 1 analyst must apply before raising a confirmed compromise.
+
+## Learning Outcome
+
+This investigation exercised the full incident lifecycle on a self-built telemetry pipeline: onboarding a Linux host to Azure Arc, deploying the Azure Monitor Agent, scoping a Data Collection Rule to the auth and authpriv syslog facilities, and hunting the resulting data in Microsoft Sentinel with KQL. It reinforced parsing unstructured syslog with regex extraction, correlating events across a join to confirm compromise, reconstructing an attack timeline, and closing the loop with a containment action the detect, confirm, contain sequence that defines Tier 1 SOC work.
+
+## Repository Structure
+
+```
+sentinel-soc-lab-setup/
+├── README.md
+└── screenshots/
+    ├── day05-auth-baseline.png
+    ├── day05-arc-connected.png
+    ├── day05-ama-extension.png
+    ├── day05-syslog-baseline.png
+    ├── day05-attack-execution.png
+    ├── day05-syslog-attack-confirmed.png
+    ├── day05-failure-spike.png
+    ├── day05-compromise-found.png
+    ├── day05.a-attack-timeline.png
+    ├── day05.b-attack-timeline.png
+    └── day05-containment-block.png
+```
+
+## Conclusion
+
+A simulated SSH brute-force against a monitored Linux host was detected, confirmed as a successful compromise, and contained using a Sentinel-based detection pipeline built from the ground up. By correlating 88 failed and 8 successful authentications from a single source IP, the investigation moved beyond surface-level alerting to a confirmed-breach determination, then closed with a firewall containment action demonstrating the end-to-end detection and response workflow expected of a SOC Tier 1 analyst.
