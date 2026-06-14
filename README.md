@@ -1,8 +1,8 @@
 # Microsoft Sentinel SOC Detection Lab
 
-Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations — pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
+Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
 
-**Author:** James Williams ([WilliamInCyber](https://www.linkedin.com/in/WilliamInCyber)) · [GitHub: WiLL75G](https://github.com/WiLL75G)
+**Author:** William Gokah · [GitHub: WiLL75G](https://github.com/WiLL75G)
 **Platform:** Microsoft Sentinel (Unified Defender Portal) · Azure East US · Workspace `law-soc-lab`
 
 ---
@@ -11,9 +11,9 @@ Building a Security Operations capability from an empty Azure workspace to two c
 
 Two confirmed incidents worked end to end, from detection through containment and reporting:
 
-**SSH Brute-Force Compromise (MITRE T1110) — Linux.** A single source IP produced 88 failed and 8 successful logins against one account. Detected in Syslog, confirmed by correlating failures with successes, and contained at the host firewall.
+**SSH Brute-Force Compromise (MITRE T1110) Linux.** A single source IP produced 88 failed and 8 successful logins against one account. Detected in Syslog, confirmed by correlating failures with successes, and contained at the host firewall.
 
-**Malicious PowerShell Execution (MITRE T1059.001) — Windows.** Encoded commands, a download cradle, and an execution-policy bypass detected via PowerShell script block logging — defeating base64 obfuscation.
+**Malicious PowerShell Execution (MITRE T1059.001) Windows.** Encoded commands, a download cradle, and an execution-policy bypass detected via PowerShell script block logging defeating base64 obfuscation.
 
 **Full flagship report:** [SOC-Flagship-Investigation-Report.pdf](SOC-Flagship-Investigation-Report.pdf)
 
@@ -37,12 +37,12 @@ Each stage builds on the last: stand up the SIEM, prove ingestion, learn to quer
 
 ## Capabilities Demonstrated
 
-- **SIEM pipeline engineering** — Azure Arc to Azure Monitor Agent to Data Collection Rule ingestion for Linux Syslog and Windows event logs
-- **KQL / log analysis** — filtering, aggregation, correlation, and timelining across multiple data sources
-- **Detection engineering** — authored a scheduled analytics rule and indicator-based hunt queries
-- **Threat hunting** — proactive hunts confirming compromise on both Linux and Windows
-- **Incident response** — detect, confirm, contain workflow including live firewall containment
-- **Documentation** — structured reporting with executive summary, IOCs, ATT&CK mapping, and recommendations
+- **SIEM pipeline engineering** Azure Arc to Azure Monitor Agent to Data Collection Rule ingestion for Linux Syslog and Windows event logs
+- **KQL / log analysis** filtering, aggregation, correlation, and timelining across multiple data sources
+- **Detection engineering** authored a scheduled analytics rule and indicator-based hunt queries
+- **Threat hunting** proactive hunts confirming compromise on both Linux and Windows
+- **Incident response** detect, confirm, contain workflow including live firewall containment
+- **Documentation** structured reporting with executive summary, IOCs, ATT&CK mapping, and recommendations
 
 ---
 
