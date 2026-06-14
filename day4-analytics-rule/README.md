@@ -1,4 +1,4 @@
-# Day 4 — Scheduled Analytics Rule & Incident Triage
+# Day 4 Scheduled Analytics Rule & Incident Triage
 
 ## Incident Summary
 Built a custom detection rule ("Suspicious Resource Write Activity") in Microsoft Sentinel via the unified Defender portal to detect successful write operations against Azure resources, triggered it with a controlled tag write, and triaged the resulting incident end to end as a Tier 1 analyst.
@@ -46,7 +46,7 @@ Triggered the rule with a tag write, then triaged the incident: took ownership, 
 | Impact | Data Manipulation: Stored Data Manipulation | T1565.001 |
 
 ## SOC Observation
-Microsoft has moved Sentinel's analytics rules into the unified Defender portal as "custom detection rules." The classic frequency-plus-lookback pairing is replaced by a single frequency control — near-real-time rules carry no lookback period — which removes the old "lookback must be greater than or equal to frequency" trap. Entity correlation quality depends on matching the identifier type to the data: the Caller value is email-formatted, so UPN was the correct mapping.
+Microsoft has moved Sentinel's analytics rules into the unified Defender portal as "custom detection rules." The classic frequency-plus-lookback pairing is replaced by a single frequency control — near-real-time rules carry no lookback period which removes the old "lookback must be greater than or equal to frequency" trap. Entity correlation quality depends on matching the identifier type to the data: the Caller value is email-formatted, so UPN was the correct mapping.
 
 ## Learning Outcome
 Built and operated a complete detection lifecycle: query validation, scheduled rule, alert enrichment, entity mapping, incident generation, and Tier 1 triage.
