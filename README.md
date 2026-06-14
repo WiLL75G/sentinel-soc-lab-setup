@@ -332,7 +332,8 @@ Day 4 delivered a working scheduled detection rule that detects suspicious resou
  
  
  
-##Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
+
+Day 5 SOC Tier 1 Incident Report: SSH Brute-Force Detection & Compromise Confirmation
 
 ## Incident Summary
 
