@@ -1,10 +1,10 @@
-# Day 2 — First Data Connector & Ingestion Validation
+# Day 2 First Data Connector & Ingestion Validation
 
 ## Incident Summary
 Onboarded the first telemetry source into Microsoft Sentinel via the Azure Activity connector, then validated end to end that log data flowed into the workspace by generating control-plane events and confirming them in KQL against the Day 1 baseline.
 
 ## Objective
-Prove a working ingestion pipeline — not just a connected connector, but data actually arriving and queryable.
+Prove a working ingestion pipeline not just a connected connector, but data actually arriving and queryable.
 
 ## Affected System
 - Log Analytics Workspace: law-soc-lab
@@ -28,12 +28,12 @@ Generated control-plane activity (resource-group tag changes) to produce ingesta
 
 ![Activity generated](screenshots/day02-activity-generated.png)
 
-Validated ingestion in the Logs editor — AzureActivity rows appeared where the Day 1 baseline was empty.
+Validated ingestion in the Logs editor AzureActivity rows appeared where the Day 1 baseline was empty.
 
 ![Ingestion validated](screenshots/day02-ingestion-validated.png)
 
 ## SOC Observation
-The Azure Policy assignment reported success but did not, on its own, create the diagnostic setting that actually streams data. A diagnostic setting had to be created manually before any data flowed. The lesson: a green checkmark is not proof of ingestion — validate with a query. First-time ingestion can also take from several minutes up to an hour to appear; an immediate empty result is expected latency, not failure.
+The Azure Policy assignment reported success but did not, on its own, create the diagnostic setting that actually streams data. A diagnostic setting had to be created manually before any data flowed. The lesson: a green checkmark is not proof of ingestion validate with a query. First-time ingestion can also take from several minutes up to an hour to appear; an immediate empty result is expected latency, not failure.
 
 ## Validation Query
 ```kql
