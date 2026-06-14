@@ -1,4 +1,4 @@
-# Day 5 — SSH Brute-Force Detection & Compromise Confirmation
+# Day 5 SSH Brute-Force Detection & Compromise Confirmation
 
 ## Incident Summary
 - **Incident Type:** Credential Access via SSH Brute-Force (Successful Compromise)
@@ -46,7 +46,7 @@ The resulting events were confirmed in the Sentinel Syslog table.
 
 ## SOC Analyst Findings
 
-Aggregating failed SSH authentications by source IP and user surfaced a single source (192.168.64.15) responsible for 88 failed logins against mary — the defining signature of password-guessing.
+Aggregating failed SSH authentications by source IP and user surfaced a single source (192.168.64.15) responsible for 88 failed logins against mary the defining signature of password-guessing.
 
 ![Failure spike](screenshots/day05-failure-spike.png)
 
@@ -77,7 +77,7 @@ A chronological timeline showed the activity compressed into roughly 75 seconds,
 | Initial Access | Valid Accounts | T1078 |
 
 ## SOC Analyst Response
-Upon confirming the compromise, the attacker source IP was contained at the host firewall — a UFW deny rule for 192.168.64.15 inserted above the permissive SSH rule, cutting off all further access.
+Upon confirming the compromise, the attacker source IP was contained at the host firewall a UFW deny rule for 192.168.64.15 inserted above the permissive SSH rule, cutting off all further access.
 
 ![Containment block](screenshots/day05-containment-block.png)
 
@@ -87,7 +87,7 @@ Recommended follow-up: reset the compromised account credentials, review for pos
 The decisive step was not detecting failed logins in isolation but correlating failures with successes from the same source. A high failure count alone indicates an attempted attack; failures paired with successes indicate the attacker broke through. That distinction separates routine noise from an escalation-worthy incident.
 
 ## Learning Outcome
-Exercised the full incident lifecycle on a self-built telemetry pipeline: Arc onboarding, AMA deployment, DCR scoping, KQL hunting, compromise confirmation, and containment — the detect, confirm, contain sequence of Tier 1 SOC work.
+Exercised the full incident lifecycle on a self-built telemetry pipeline: Arc onboarding, AMA deployment, DCR scoping, KQL hunting, compromise confirmation, and containment the detect, confirm, contain sequence of Tier 1 SOC work.
 
 ## Next
 Day 6: hunt malicious PowerShell on a Windows endpoint — a different log source and tactic.
