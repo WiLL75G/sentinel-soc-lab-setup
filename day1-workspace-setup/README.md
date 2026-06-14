@@ -1,10 +1,10 @@
-# Day 1 — Workspace Deployment & Baseline
+# Day 1 Workspace Deployment & Baseline
 
 ## Incident Summary
 Stood up the foundation of the SOC environment: deployed a Log Analytics workspace, enabled Microsoft Sentinel, and captured a clean baseline confirming the workspace was empty before any telemetry was onboarded.
 
 ## Objective
-Establish the central telemetry destination and prove, with evidence, that the environment starts from a known-empty state — the evidentiary foundation for every later before/after validation.
+Establish the central telemetry destination and prove, with evidence, that the environment starts from a known-empty state the evidentiary foundation for every later before/after validation.
 
 ## Affected System
 - Log Analytics Workspace: law-soc-lab (Workspace ID e19a5dce-4777-4f66-9a27-2318c18a2f46)
@@ -36,7 +36,7 @@ Ran a baseline query confirming the workspace tables were empty prior to onboard
 ![Baseline empty tables](screenshots/day01-baseline-empty-tables.png)
 
 ## SOC Observation
-Capturing an empty baseline is not a formality — it is the reference point that lets every later ingestion be proven rather than assumed. When data later appears where the baseline showed none, ingestion is confirmed.
+Capturing an empty baseline is not a formality it is the reference point that lets every later ingestion be proven rather than assumed. When data later appears where the baseline showed none, ingestion is confirmed.
 
 ## Learning Outcome
 Deployed a Microsoft Sentinel workspace from scratch and established a documented empty baseline, the foundation for evidence-based ingestion validation throughout the lab.
