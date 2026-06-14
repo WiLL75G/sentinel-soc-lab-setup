@@ -1,4 +1,4 @@
-# Day 6 — Malicious PowerShell Execution Hunt on Windows Endpoint
+# Day 6 Malicious PowerShell Execution Hunt on Windows Endpoint
 
 ## Incident Summary
 | Field | Detail |
@@ -9,10 +9,10 @@
 | Affected Host | JAMES-VM (Windows 11) |
 | Tools | Azure Arc, Azure Monitor Agent, Data Collection Rule, Microsoft Sentinel, KQL |
 | MITRE Techniques | T1059.001, T1105 |
-| Status | Closed — True Positive (simulated) |
+| Status | Closed True Positive (simulated) |
 
 ## Executive Summary
-A Windows 11 endpoint was onboarded into Microsoft Sentinel to hunt for malicious PowerShell execution. During pipeline validation a platform constraint was identified: the SecurityEvent table (Event ID 4688, process creation) did not populate on this tenant, while the Event table carrying PowerShell Script Block Logging (Event ID 4104) ingested normally. The hunt was pivoted entirely onto 4104 telemetry, which proved sufficient to detect every simulated technique — including a base64-encoded command, demonstrating that script block logging records the decoded payload regardless of obfuscation.
+A Windows 11 endpoint was onboarded into Microsoft Sentinel to hunt for malicious PowerShell execution. During pipeline validation a platform constraint was identified: the SecurityEvent table (Event ID 4688, process creation) did not populate on this tenant, while the Event table carrying PowerShell Script Block Logging (Event ID 4104) ingested normally. The hunt was pivoted entirely onto 4104 telemetry, which proved sufficient to detect every simulated technique including a base64-encoded command, demonstrating that script block logging records the decoded payload regardless of obfuscation.
 
 ## Affected System
 | Attribute | Value |
@@ -25,13 +25,13 @@ A Windows 11 endpoint was onboarded into Microsoft Sentinel to hunt for maliciou
 
 ## Investigation Methodology
 
-### Step 1 — Baseline the Windows event tables
+### Step 1 Baseline the Windows event tables
 Both SecurityEvent and Event (4104) returned zero rows, confirming ingestion had to be built.
 
 ![SecurityEvent baseline empty](screenshots/day06-windows-baseline-securityevent.png)
 ![Event 4104 baseline empty](screenshots/day06-windows-baseline-event4104.png)
 
-### Step 2 — Onboard via Azure Arc and deploy the Azure Monitor Agent
+### Step 2 Onboard via Azure Arc and deploy the Azure Monitor Agent
 The Windows VM was onboarded to Azure Arc and a Data Collection Rule was associated, deploying the agent.
 
 ![Arc machine connected](screenshots/day06-arc-machine-connected.png)
@@ -41,12 +41,12 @@ The DCR used custom XPath queries to collect exactly the required event IDs.
 
 ![DCR custom XPath queries](screenshots/day06-dcr-xpath-queries.png)
 
-### Step 3 — Enable host-side logging
+### Step 3 Enable host-side logging
 Audit process creation, command-line inclusion, and PowerShell script block logging were enabled on the endpoint.
 
 ![Host logging enabled](screenshots/day06-logging-enabled.png)
 
-### Step 4 — Simulate malicious PowerShell
+### Step 4 Simulate malicious PowerShell
 Three execution techniques were run on the endpoint (benign payloads, harmless target).
 
 Encoded command (obfuscation):
@@ -61,7 +61,7 @@ Execution-policy bypass:
 
 ![PowerShell bypass](screenshots/day06-powershell-attack-bypass.png)
 
-### Step 5 — Hunt the telemetry
+### Step 5 Hunt the telemetry
 
 Suspicious script block indicators:
 
@@ -75,7 +75,7 @@ Event
 | sort by TimeGenerated asc
 ```
 
-Obfuscation defeated — the base64-encoded payload recovered in decoded form:
+Obfuscation defeated the base64-encoded payload recovered in decoded form:
 
 ![Decoded script block](screenshots/day06-scriptblock-decoded.png)
 
@@ -105,7 +105,7 @@ Execution timeline:
 - Hidden-window execution did not evade script block logging.
 
 ## Analyst Insight
-The most valuable lesson was the adaptation. When the expected process-creation telemetry proved unavailable, the hunt pivoted to PowerShell Script Block Logging — which turned out to be the stronger source, because it records the decoded content of obfuscated commands that 4688 alone would only show as an opaque encoded blob. Real detection work is rarely a clean run against ideal telemetry; the analyst's job is to detect with the data that is actually flowing.
+The most valuable lesson was the adaptation. When the expected process-creation telemetry proved unavailable, the hunt pivoted to PowerShell Script Block Logging which turned out to be the stronger source, because it records the decoded content of obfuscated commands that 4688 alone would only show as an opaque encoded blob. Real detection work is rarely a clean run against ideal telemetry; the analyst's job is to detect with the data that is actually flowing.
 
 ## Learning Outcome
 - Onboarded a Windows endpoint to Sentinel via Azure Arc → AMA → DCR.
