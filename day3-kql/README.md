@@ -1,10 +1,10 @@
-# Day 3 — KQL Fundamentals
+# Day 3 KQL Fundamentals
 
 ## Incident Summary
 Turned ingested logs into answers using KQL, running the core operators against the live AzureActivity data to filter, shape, aggregate, and attribute real telemetry.
 
 ## Objective
-Build query fluency — the day-to-day skill of a SOC analyst — using real ingested events rather than textbook samples.
+Build query fluency the day-to-day skill of a SOC analyst using real ingested events rather than textbook samples.
 
 ## The Funnel Model
 KQL works like a funnel: start with the whole table, then narrow step by step until only the events that matter remain.
@@ -46,7 +46,7 @@ Azure logs many operations as a Start/Success pair, so counting raw events witho
 | count / take | Counts rows / samples N rows |
 
 ## Learning Outcome
-Demonstrated the ability to query a live SIEM with KQL — filtering, shaping, aggregating, and attributing real telemetry.
+Demonstrated the ability to query a live SIEM with KQL filtering, shaping, aggregating, and attributing real telemetry.
 
 ## Next
 Day 4: turn these queries into a scheduled detection that fires incidents automatically.
