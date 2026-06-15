@@ -2,7 +2,6 @@
 
 Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
 
-**Author:** William Gokah · [GitHub: WiLL75G](https://github.com/WiLL75G)
 **Platform:** Microsoft Sentinel (Unified Defender Portal) · Azure East US · Workspace `law-soc-lab`
 
 ---
