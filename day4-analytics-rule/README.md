@@ -1,4 +1,4 @@
-# Day 4 Scheduled Analytics Rule & Incident Triage
+# Scheduled Analytics Rule & Incident Triage
 
 ## Incident Summary
 Built a custom detection rule ("Suspicious Resource Write Activity") in Microsoft Sentinel via the unified Defender portal to detect successful write operations against Azure resources, triggered it with a controlled tag write, and triaged the resulting incident end to end as a Tier 1 analyst.
