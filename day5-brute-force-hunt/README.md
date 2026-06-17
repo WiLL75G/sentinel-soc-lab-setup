@@ -1,4 +1,4 @@
-# Day 5 SSH Brute-Force Detection & Compromise Confirmation
+# SSH Brute-Force Detection & Compromise Confirmation
 
 ## Incident Summary
 - **Incident Type:** Credential Access via SSH Brute-Force (Successful Compromise)
