@@ -1,4 +1,4 @@
-# Day 6 Malicious PowerShell Execution Hunt on Windows Endpoint
+# Malicious PowerShell Execution Hunt on Windows Endpoint
 
 ## Incident Summary
 | Field | Detail |
