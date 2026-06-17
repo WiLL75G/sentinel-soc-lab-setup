@@ -1,4 +1,4 @@
-# Day 2 First Data Connector & Ingestion Validation
+# First Data Connector & Ingestion Validation
 
 ## Incident Summary
 Onboarded the first telemetry source into Microsoft Sentinel via the Azure Activity connector, then validated end to end that log data flowed into the workspace by generating control-plane events and confirming them in KQL against the Day 1 baseline.
