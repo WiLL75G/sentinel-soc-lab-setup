@@ -1,4 +1,4 @@
-# Day 1 Workspace Deployment & Baseline
+# Workspace Deployment & Baseline
 
 ## Incident Summary
 Stood up the foundation of the SOC environment: deployed a Log Analytics workspace, enabled Microsoft Sentinel, and captured a clean baseline confirming the workspace was empty before any telemetry was onboarded.
