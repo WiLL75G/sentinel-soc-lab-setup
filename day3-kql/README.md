@@ -1,4 +1,4 @@
-# Day 3 KQL Fundamentals
+# KQL Fundamentals
 
 ## Incident Summary
 Turned ingested logs into answers using KQL, running the core operators against the live AzureActivity data to filter, shape, aggregate, and attribute real telemetry.
