@@ -15,7 +15,7 @@
 
 # Microsoft Sentinel SOC Detection Lab
 
-> Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations, covering pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
+Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations, covering pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
 
 **Platform:** Microsoft Sentinel (Unified Defender Portal) · Azure East US · Workspace `law-soc-lab`
 
