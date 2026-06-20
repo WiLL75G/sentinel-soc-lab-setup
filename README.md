@@ -1,8 +1,25 @@
+```
+███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗     
+██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║     
+███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║     
+╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║     
+███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
+╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
+```
+
+[![Blue Team Notes](https://img.shields.io/badge/Blue_Team_Notes-WilliamInCyber-1F6FEB?style=flat&logo=github&logoColor=white)](https://github.com/WiLL75G)
+[![Microsoft Sentinel](https://img.shields.io/badge/Microsoft-Sentinel-0078D4?style=flat&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/products/microsoft-sentinel)
+[![KQL](https://img.shields.io/badge/Query-KQL-005BA1?style=flat)](https://learn.microsoft.com/azure/data-explorer/kusto/query)
+[![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-C5221F?style=flat)](https://attack.mitre.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 # Microsoft Sentinel SOC Detection Lab
 
-Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
+> Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations, covering pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
 
 **Platform:** Microsoft Sentinel (Unified Defender Portal) · Azure East US · Workspace `law-soc-lab`
+
+*This is a quick overview. KQL detections, lab architecture, and full walkthroughs are in the [detection modules](#detections).*
 
 ---
 
