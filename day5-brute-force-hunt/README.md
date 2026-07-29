@@ -1,5 +1,5 @@
 
-# Day 5 — SSH Brute-Force Detection & Compromise Confirmation
+# SSH Brute-Force Detection & Compromise Confirmation
 
 88 failed logins are noise. 88 failures and 8 successes from the same source IP against the same account are a compromise. This hunt catches the exact moment that line is crossed in Sentinel Syslog, then contains the source at the host firewall. It is the same attack technique caught host-side by Wazuh and on the wire by Suricata in the detection-engineering-labs repo, seen here a third way, through a cloud SIEM.
 
