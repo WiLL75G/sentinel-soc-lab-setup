@@ -1,5 +1,5 @@
 
-# Day 1 — Workspace Deployment & Baseline
+# Workspace Deployment & Baseline
 
 Every later "ingestion confirmed" claim in this lab rests on one thing proven here: that the workspace started empty. This day deploys the Sentinel foundation and captures the empty baseline that turns every subsequent detection from an assumption into evidence.
 
