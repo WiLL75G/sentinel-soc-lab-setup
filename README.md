@@ -1,19 +1,14 @@
-```
-███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗     
-██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║     
-███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║     
-╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║     
-███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
-╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
-```
-
-[![Blue Team Notes](https://img.shields.io/badge/Blue_Team_Notes-WilliamInCyber-1F6FEB?style=flat&logo=github&logoColor=white)](https://github.com/WiLL75G)
-[![Microsoft Sentinel](https://img.shields.io/badge/Microsoft-Sentinel-0078D4?style=flat&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/products/microsoft-sentinel)
-[![KQL](https://img.shields.io/badge/Query-KQL-005BA1?style=flat)](https://learn.microsoft.com/azure/data-explorer/kusto/query)
-[![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-C5221F?style=flat)](https://attack.mitre.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-
 # Microsoft Sentinel SOC Detection Lab
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![SIEM](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4.svg)]()
+[![Focus](https://img.shields.io/badge/Focus-Detection%20Engineering-blue.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows-orange.svg)]()
+[![Language](https://img.shields.io/badge/Language-KQL-success.svg)]()
+[![MITRE ATT&CK](https://img.shields.io/badge/MITRE-T1110%20%7C%20T1059.001-red.svg)](https://attack.mitre.org/)
+[![Labs](https://img.shields.io/badge/Labs-7%20Complete-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Status-Complete-brightgreen.svg)]()
+
 
 Building a Security Operations capability from an empty Azure workspace to two confirmed, documented investigations, covering pipeline engineering, KQL detection, threat hunting, and incident reporting across Linux and Windows.
 
