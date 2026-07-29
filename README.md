@@ -81,12 +81,12 @@ The two hunts then mirror the two halves of an analyst's instinct: correlation (
 
 ## Capabilities Demonstrated
 
-- **SIEM pipeline engineering** — Azure Arc to Azure Monitor Agent to Data Collection Rule ingestion for Linux Syslog and Windows event logs.
-- **KQL / log analysis** — filtering, aggregation, correlation, and timelining across multiple data sources.
-- **Detection engineering** — authored a scheduled analytics rule and indicator-based hunt queries.
-- **Threat hunting** — proactive hunts confirming compromise on both Linux and Windows.
-- **Incident response** — detect, confirm, contain workflow including live firewall containment.
-- **Documentation** — structured reporting with executive summary, IOCs, ATT&CK mapping, and recommendations.
+- **SIEM pipeline engineering** Azure Arc to Azure Monitor Agent to Data Collection Rule ingestion for Linux Syslog and Windows event logs.
+- **KQL / log analysis** filtering, aggregation, correlation, and timelining across multiple data sources.
+- **Detection engineering** authored a scheduled analytics rule and indicator-based hunt queries.
+- **Threat hunting** proactive hunts confirming compromise on both Linux and Windows.
+- **Incident response** detect, confirm, contain workflow including live firewall containment.
+- **Documentation** structured reporting with executive summary, IOCs, ATT&CK mapping, and recommendations.
 
 ## Environment
 
